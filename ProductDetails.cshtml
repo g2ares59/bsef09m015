@@ -1,0 +1,80 @@
+﻿@{ 
+Layout = "~/shared/layout/_basiclayout.cshtml"; 
+var itemNo = !UrlData[0].IsEmpty() ? UrlData[0] : "0"; 
+var db = Database.Open("apnidatabase"); 
+var sqlSelect = "SELECT * FROM products WHERE itemNo = @0"; 
+var product = db.QuerySingle(sqlSelect, itemNo); 
+} 
+<div class="shell" style="padding-top:70px ">
+
+@if (product == null) 
+{ 
+<p> 
+Unable to fetch product details. 
+Try browsing one of the categories listed to the above. 
+</p> 
+} 
+else 
+{ 
+Page.Title = product.brand; 
+
+<text> 
+<h1>@product.brand</h1> 
+<div id="productDetails">
+<p class="price"> 
+£@product.price 
+</p> 
+    <p>@Products.ShowProductImage(itemNo)</p>
+<p>description:  @product.description</p> 
+</div> 
+
+<div id="orderForm"> 
+<form action="/Cart" method="post"> 
+<fieldset> 
+<legend>Place Order</legend> 
+<p> 
+<label for="size">Size:</label> 
+<select name="size"> 
+<option value="8">8</option> 
+<option value="9">9</option> 
+<option value="10">10</option> 
+<option value="11">11</option> 
+</select> 
+</p> 
+<p> 
+@Html.Hidden("productID", itemNo) 
+@Html.Hidden("price", product.price) 
+<input type="submit" value="Add to Cart" /> 
+</p> 
+</fieldset> 
+</form> 
+    
+  <fieldset> 
+<legend>Share</legend> 
+<p> 
+@GooglePlusOne.PlusOneButton() 
+</p> 
+<p> 
+@Twitter.TweetButton(tweetText: "Check this out on the g2ares59 site!", 
+userName: "g2ares59", 
+dataCount: "horizontal") 
+</p> 
+<p> 
+@{ string currentUrl = Request.Url.ToString(); } 
+@Facebook.LikeButton(currentUrl, 
+width:230, 
+buttonLayout:"standard", 
+height:25, 
+showFaces:false) 
+</p> 
+</fieldset>
+
+
+    </div>
+
+    </text>  
+
+
+ 
+} 
+</div>

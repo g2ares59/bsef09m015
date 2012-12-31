@@ -1,0 +1,19 @@
+﻿@{ 
+Layout = "~/Shared/Layout/_basiclayout.cshtml"; 
+WebSecurity.Logout(); 
+} 
+
+<!DOCTYPE html> 
+<html lang="en"> 
+    
+<head> 
+<title>Log Out</title> 
+</head> 
+<body> 
+    <div  class="shell">
+<h1 style="padding-top: 30px">Log Out</h1> 
+<p>you are going to logout from the site.</p> 
+<p style="padding-top: 20px"><a href="@Href("~/default")">Logout and return to home page</a></p> 
+        </div>
+</body> 
+</html>

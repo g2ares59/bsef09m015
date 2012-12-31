@@ -1,0 +1,101 @@
+﻿@{
+    if (!WebSecurity.IsAuthenticated) 
+    { 
+        Response.Redirect("~/login"); 
+    }
+    Layout = "~/Shared/Layout/_basiclayout.cshtml";
+    Page.Title = "Add Product";
+   
+
+
+
+     var db = Database.Open("apnidatabase"); 
+    var sqlCommand = "SELECT * FROM categories";
+    var ino = Request.Form["txt1"];
+    var sl = Request.Form["txt2"];
+    
+    var bn = Request.Form["txt3"];
+    var prc= Request.Form["txt4"];
+    var key= Request.Form["txt5"];
+    var cat = Request.Form["drop_category"];
+
+    var desc= Request.Form["txt6"];
+    
+    if(IsPost)
+    { 
+    var selectQueryString = "INSERT INTO  products VALUES( @0, @1, @2, @3, @4, @5, @6)";
+    db.Execute(selectQueryString,ino, sl, bn, prc, key, cat, desc);
+     
+    // Product image 
+           var productImage = WebImage.GetImageFromRequest(); 
+           if(productImage != null) 
+         { 
+   // Save main product image 
+           var savePath = @"~\ProductImages\" + ino;
+           productImage.Resize(height: 300, width: 300, 
+                preserveAspectRatio: true); 
+            productImage.Save(filePath: savePath + ".png", 
+            imageFormat: "png", 
+            forceCorrectExtension: true ); 
+             // Resize and save thumbnail 
+             productImage.Resize(height: 120, width: 120, 
+              preserveAspectRatio: true); 
+                productImage.Save(filePath: savePath + "_thumb.png", 
+             imageFormat: "png", 
+                  forceCorrectExtension: true ); 
+          }
+    
+    
+    
+    
+    <script>
+        alert("product added");
+    </script>
+    }
+    
+    
+}
+<div  class="shell3">
+
+<form name="myForm" method="post" enctype="multipart/form-data" style="padding-top: 50px" >
+    <fieldset >
+    <legend>Add Product</legend>
+    <select name="drop_category"> 
+    <option>Select Category</option>
+    @{
+        foreach (var row in db.Query(sqlCommand)){
+        <option value="@row.categoryId">@row.categotyTitle</option>
+    }}
+    </select>
+    <br>
+    <label>Please Enter Item Number:..</label>
+    <input type="text"  placeholder="Enter Unique Item Number" name="txt1" id="txt1"/>  
+    <br>
+    <label>Enter Product Size list:...........</label>
+    <input type="text"  placeholder="Enter Product Size list" name="txt2" id="txt2"/>  
+    <br>
+    <label>Please Enter Brand Name:...</label>
+    <input type="text"  placeholder="Please Enter Brand Name" name="txt3" id="txt3"/>  
+    <br>      
+    <label>Please Enter Product Price:..</label>
+    <input type="text"  placeholder="Please Enter Product Price" name="txt4" id="txt4"/>  
+    <br>      
+     <label>Please Enter keywords:.........</label>
+    <input type="text" placeholder="Please Enter keywords" name="txt5" id="txt5"/>  
+    <br>
+        <label>Please Enter Description:.....</label>
+    <input type="text" placeholder="Please Enter Description" name="txt6" id="txt6"/>  
+    <br>
+        <label>Please upload picture:...........</label>
+    <input type="file" placeholder="Please upload picture" name="productImage" id="productImage"/>  
+    <br>     
+    <input type="submit"  value="Add">
+        <br>
+        <br>
+        <br>
+        <a href="~/adminMain.cshtml">Go back to Admin main</a>
+        <br><br>
+
+
+     </fieldset >
+</form></div>

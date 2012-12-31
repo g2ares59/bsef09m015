@@ -1,0 +1,40 @@
+﻿@{
+if (!WebSecurity.IsAuthenticated) 
+    { 
+        Response.Redirect("~/login"); 
+    }
+Layout = "~/Shared/Layout/_basiclayout.cshtml";
+Page.Title = "Delete Category";
+
+     var db = Database.Open("apnidatabase"); 
+    var sqlCommand = "SELECT * FROM categories";
+    var cat = Request.Form["drop_category"];
+    if(IsPost)
+    { 
+    var selectQueryString = "DELETE FROM categories Where  categoryId= @0" ;
+    db.Execute(selectQueryString, cat);
+     <script>
+        alert("Category deleted");
+    </script>
+    }
+
+}
+<div  class="shell3">
+    <h1 style="padding-top: 30px">Delete category</h1>
+<form name="myForm" method="post" style="padding-top: 50px" >
+<select name="drop_category"> 
+    <option>Select Category</option>
+    @{
+        foreach (var row in db.Query(sqlCommand)){
+        <option value="@row.categoryId">@row.categotyTitle</option>
+    }}
+    </select>
+<br>     
+    <input type="submit"  value="Delete">
+    <br>
+        <br>
+        <br>
+        <a href="~/adminMain.cshtml">Go back to Admin main</a>
+        <br><br>
+     </form>
+</div>

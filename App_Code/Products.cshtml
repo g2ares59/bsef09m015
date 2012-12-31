@@ -1,0 +1,27 @@
+﻿@* Product Functions *@ 
+@functions { 
+public static string GetProductNameFromId(int productID) 
+{ 
+var db = Database.Open("apnidatabase"); 
+var sqlQuery = "SELECT brand FROM products WHERE itemNo = @0"; 
+return db.QuerySingle(sqlQuery, productID).brand; 
+} 
+} 
+@helper ShowProductImage(string productId) 
+{ 
+var imagePath = @"~/ProductImages/" + productId + ".png"; 
+if (!File.Exists(Server.MapPath(imagePath))) 
+{ 
+imagePath = "~/ProductImages/noImage.png"; 
+} 
+<img src="@Href(imagePath)" alt="Product Image"/> 
+}
+@helper ShowProductThumbnail(string productId) 
+{ 
+var imagePath = @"~/ProductImages/" + productId + "_thumb.png";
+if (!File.Exists(Server.MapPath(imagePath))) 
+{ 
+imagePath = "~/ProductImages/noThumb.png"; 
+} 
+<img src="@Href(imagePath)" alt="Product Image"/> 
+} 

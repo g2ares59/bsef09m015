@@ -1,0 +1,60 @@
+﻿@{ 
+Layout = "~/shared/layout/_layout.cshtml"; 
+
+
+var categoryTitle = UrlData[0]; 
+ 
+Page.Title = categoryTitle; 
+var db = Database.Open("apnidatabase"); 
+var sqlSelect = "SELECT itemNO, brand, price FROM Products " + 
+"LEFT OUTER JOIN Categories ON Products.category = Categories.categoryID " + 
+"WHERE Categories.categotyTitle = @0"; 
+var products = db.Query(sqlSelect, categoryTitle); 
+}
+
+<div class="shell1">
+    <div id="container">
+        <div class="tabbed">
+    
+<div id="contentTitle" style="padding:5px 0 5px 5px "> 
+<h1>@categoryTitle</h1> 
+</div> 
+
+<div class="items" style="padding-top: 10px">
+@if (products.Count() == 0) 
+{ 
+<p> 
+No items found in this category. 
+Try browsing one of the categories listed to the Above. 
+</p> 
+}
+
+<ul id="productsList"> 
+@foreach (var item in products) { 
+<li> 
+<h3> 
+<a href="~/ProductDetails/@item.itemNo">@item.brand</a> 
+</h3>
+    <p> 
+    @Products.ShowProductThumbnail(item.itemNo.ToString())
+        </p>
+<p class="price"> 
+£@item.price 
+</p> 
+<p> 
+  
+
+
+<a href="~/ProductDetails/@item.itemNo" class="detailsButton"> 
+More Details 
+</a> 
+</p> 
+</li> 
+} 
+</ul> 
+</div>
+      
+
+</div>
+</div>
+</div>

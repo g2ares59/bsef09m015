@@ -1,0 +1,27 @@
+﻿@{
+    if (!WebSecurity.IsAuthenticated) 
+{ 
+Response.Redirect("~/login.cshtml"); 
+} 
+    Layout = "~/Shared/Layout/_basiclayout.cshtml"; 
+    Page.Title = "admin main";
+    
+    
+}
+
+<div class="shell1" style="padding: 60px 0px 0px 390px">
+    <h1 style="padding-bottom: 30px"> Admin main</h1>
+    <a href="~/AddCategory.cshtml"><img src="~/Images/1.png" alt="tw"/></a>
+    <a href="~/addproduct.cshtml"><img src="~/Images/2.png" alt="tw"/></a>
+    <a href="~/deletecategory.cshtml"><img src="~/Images/3.png" alt="tw"/></a>
+    <a href="~/deleteproduct.cshtml"><img src="~/Images/4.png" alt="tw"/></a>
+    <a href="~/updatecategory.cshtml"><img src="~/Images/5.png" alt="tw"/></a>
+    <a href="~/updateproduct.cshtml"><img src="~/Images/6.png" alt="tw"/></a>
+     
+        
+        
+        
+        
+
+</div>
+   

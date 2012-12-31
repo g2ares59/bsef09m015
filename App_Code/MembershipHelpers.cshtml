@@ -1,0 +1,16 @@
+﻿@helper AccountSummary() 
+{ 
+<div id="accountSummary"> 
+@if(WebSecurity.IsAuthenticated) { 
+<p> 
+Welcome <a href="@Href("~/shop.cshtml")">@WebSecurity.CurrentUserName</a> | <a href="@Href("~/Cart")">Cart</a> |
+<a href="@Href("~/logout")">Logout</a> 
+</p> 
+} else { 
+<p> 
+<a href="@Href("~/login")">Login</a> | 
+<a href="@Href("~/register")">Register</a> 
+</p> 
+} 
+</div> 
+}

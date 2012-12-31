@@ -1,0 +1,45 @@
+﻿@{
+if (!WebSecurity.IsAuthenticated) 
+    { 
+        Response.Redirect("~/login"); 
+    }
+Layout = "~/Shared/Layout/_basiclayout.cshtml";
+Page.Title = "Add Category";
+
+
+var db = Database.Open("apnidatabase"); 
+
+var Id= Request.Form["txt1"];
+var Name= Request.Form["txt2"];
+
+
+if(IsPost)
+{ 
+var selectQueryString = "INSERT INTO categories VALUES(@0,@1)";
+db.Execute(selectQueryString,Id, Name);
+<script>
+alert("category added");
+</script>
+}
+
+}
+<div  class="shell3">
+<form name="myForm" method="post" >
+<fieldset >
+<legend style="padding-top: 60px">Add Category</legend>
+</select>
+<label>Enter Unique category ID:..</label>
+<input type="text"  placeholder="Enter Unique category ID:...." name="txt1" id="txt1"/> 
+<br>
+<label>Enter Category Name:........</label>
+<input type="text"  placeholder="Enter Category Name..." name="txt2" id="txt2"/> 
+<br>
+<input type="submit"  value="Add">
+    <br>
+        <br>
+        <br>
+        <a href="~/adminMain.cshtml">Go back to Admin main</a>
+        <br><br>
+</fieldset >
+</form>
+</div>

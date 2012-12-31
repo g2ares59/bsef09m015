@@ -1,0 +1,15 @@
+﻿
+@{ 
+var db = Database.Open("apnidatabase"); 
+var sqlSelect = "SELECT * FROM categories;"; 
+} 
+<div class="shell">
+<div id="cat">
+<ul> 
+@foreach (var category in db.Query(sqlSelect)) 
+{ 
+<li><a href="/Products/@category.categotyTitle">@category.categotyTitle</a></li> 
+} 
+</ul> </div>
+</div>
+

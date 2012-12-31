@@ -1,0 +1,28 @@
+﻿@{ 
+Layout = "~/shared/Layout/_srchlayout.cshtml"; 
+Page.Title = "Catalog Search"; 
+var db = Database.Open("apnidatabase"); 
+var searchWords = Request["searchTerm"].Split(' '); 
+IEnumerable<dynamic> result = Enumerable.Empty<string>(); 
+var sqlSelect = "SELECT * FROM Products WHERE " + 
+"brand LIKE @0 OR keywords LIKE @0"; 
+foreach(var word in searchWords) 
+{ 
+result = result.Concat(db.Query(sqlSelect, "%" + word + "%").ToList()); 
+} 
+} 
+<div class="shell">
+<h1 style="padding-top: 30px">Search Results</h1> 
+<p>@result.Count() products found matching: <em>@Request["searchTerm"]</em></p> 
+
+<ul id="searchResult"> 
+    
+@foreach (var item in result) 
+{ 
+<li> 
+<a href="/ProductDetails/@item.itemNO">@item.brand</a> 
+<a href="/ProductDetails/@item.itemNO">@item.sizeList</a>
+</li> 
+} 
+</ul> 
+</div>
